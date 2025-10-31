@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+port React, { useState, useEffect } from 'react';
 import { 
   Home, 
   User, 
@@ -39,6 +39,15 @@ const App = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState('login');
   const [activeCategory, setActiveCategory] = useState('all');
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Mock data for tutorials with professional content
   const [tutorials, setTutorials] = useState([
@@ -47,8 +56,8 @@ const App = () => {
       title: "Desarrollo Web Moderno con React 18",
       description: "Aprende las últimas características de React 18, incluyendo Suspense, Concurrent Rendering y Server Components.",
       category: "programacion",
-      author: "Miguel Bermúdez",
-      date: "2024-01-15",
+      author: "Miguel Angel Buelvas Ortega",
+      date: "2025-10-31",
       image: "https://placehold.co/600x400/1e40af/ffffff?text=React+18+Development",
       videoUrl: "https://example.com/react18",
       content: "Contenido detallado sobre React 18...",
@@ -61,8 +70,8 @@ const App = () => {
       title: "Sistemas Embebidos con ESP32",
       description: "Domina el desarrollo de sistemas IoT utilizando el microcontrolador ESP32 y su ecosistema completo.",
       category: "electronica",
-      author: "Miguel Bermúdez",
-      date: "2024-01-12",
+      author: "Miguel Angel Buelvas Ortega",
+      date: "2025-10-31",
       image: "https://placehold.co/600x400/dc2626/ffffff?text=ESP32+IoT+Systems",
       videoUrl: "https://example.com/esp32",
       content: "Contenido detallado sobre ESP32...",
@@ -75,8 +84,8 @@ const App = () => {
       title: "Arquitectura de Microservicios",
       description: "Implementa patrones de diseño modernos para construir aplicaciones escalables y mantenibles.",
       category: "programacion",
-      author: "Miguel Bermúdez",
-      date: "2024-01-10",
+      author: "Miguel Angel Buelvas Ortega",
+      date: "2025-10-31",
       image: "https://placehold.co/600x400/059669/ffffff?text=Microservices+Architecture",
       videoUrl: "https://example.com/microservices",
       content: "Contenido detallado sobre microservicios...",
@@ -89,8 +98,8 @@ const App = () => {
       title: "Diseño de PCB Profesional",
       description: "Aprende a diseñar placas de circuito impreso profesionales utilizando herramientas industriales.",
       category: "electronica",
-      author: "Miguel Bermúdez",
-      date: "2024-01-08",
+      author: "Miguel Angel Buelvas Ortega",
+      date: "2025-10-31",
       image: "https://placehold.co/600x400/7c3aed/ffffff?text=Professional+PCB+Design",
       videoUrl: "https://example.com/pcb",
       content: "Contenido detallado sobre PCB...",
@@ -115,7 +124,7 @@ const App = () => {
   // Simular autenticación
   const handleLogin = (email, password) => {
     setIsAuthenticated(true);
-    setUser({ name: 'Miguel Bermúdez', email: email, avatar: 'https://placehold.co/100x100/3b82f6/ffffff?text=MB' });
+    setUser({ name: 'Miguel Angel Buelvas Ortega', email: email, avatar: 'https://placehold.co/100x100/3b82f6/ffffff?text=MB' });
     setShowAuthModal(false);
   };
 
@@ -128,8 +137,8 @@ const App = () => {
   const handleGoogleLogin = () => {
     setIsAuthenticated(true);
     setUser({ 
-      name: 'Miguel Bermúdez', 
-      email: 'miguel@nebulacode.com', 
+      name: 'Miguel Angel Buelvas Ortega', 
+      email: 'shaka21virgo@hotmail.com', 
       avatar: 'https://placehold.co/100x100/ef4444/ffffff?text=MB' 
     });
     setShowAuthModal(false);
@@ -170,9 +179,7 @@ const App = () => {
       tutorial.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       tutorial.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
       tutorial.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
-    
     const matchesCategory = activeCategory === 'all' || tutorial.category === activeCategory;
-    
     return matchesSearch && matchesCategory;
   });
 
@@ -193,13 +200,11 @@ const App = () => {
             <X size={20} />
           </button>
         </div>
-
         {authMode === 'login' ? (
           <LoginForm onLogin={handleLogin} onGoogleLogin={handleGoogleLogin} />
         ) : (
           <RegisterForm onRegister={handleRegister} />
         )}
-
         <div className="mt-6 text-center">
           <button
             onClick={() => setAuthMode(authMode === 'login' ? 'register' : 'login')}
@@ -215,12 +220,10 @@ const App = () => {
   const LoginForm = ({ onLogin, onGoogleLogin }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
     const handleSubmit = (e) => {
       e.preventDefault();
       onLogin(email, password);
     };
-
     return (
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
@@ -251,7 +254,6 @@ const App = () => {
         >
           Iniciar Sesión Segura
         </button>
-        
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gray-200"></div>
@@ -260,7 +262,6 @@ const App = () => {
             <span className="px-4 bg-white text-gray-500 font-medium">O métodos alternativos</span>
           </div>
         </div>
-
         <button
           type="button"
           onClick={onGoogleLogin}
@@ -283,14 +284,12 @@ const App = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-
     const handleSubmit = (e) => {
       e.preventDefault();
       if (password === confirmPassword) {
         onRegister(name, email, password);
       }
     };
-
     return (
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
@@ -348,18 +347,23 @@ const App = () => {
   };
 
   const Navbar = () => (
-    <nav className="bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-gray-200">
+    <nav className={`sticky top-0 z-40 border-b transition-all duration-300 ${
+      scrolled 
+        ? 'bg-white shadow-md py-2' 
+        : 'bg-white/80 backdrop-blur-md py-4'
+    }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mr-3">
               <Code className="h-5 w-5 text-white" />
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <span className={`font-bold transition-all ${
+              scrolled ? 'text-lg' : 'text-xl'
+            } bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent`}>
               MB NebulaCode
             </span>
           </div>
-
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
             <button
@@ -395,7 +399,6 @@ const App = () => {
               <CircuitBoard size={16} />
               <span>Electrónica</span>
             </button>
-            
             {isAuthenticated && (
               <button
                 onClick={() => setCurrentPage('create')}
@@ -406,7 +409,6 @@ const App = () => {
               </button>
             )}
           </div>
-
           {/* Auth and Search */}
           <div className="flex items-center space-x-4">
             <div className="relative hidden sm:block">
@@ -419,7 +421,6 @@ const App = () => {
                 className="pl-10 pr-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent w-48 transition-all"
               />
             </div>
-
             {isAuthenticated ? (
               <div className="flex items-center space-x-3">
                 <img
@@ -447,7 +448,6 @@ const App = () => {
                 <span className="hidden sm:inline">Iniciar Sesión</span>
               </button>
             )}
-
             {/* Mobile menu button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -457,7 +457,6 @@ const App = () => {
             </button>
           </div>
         </div>
-
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-200">
@@ -500,7 +499,6 @@ const App = () => {
                 <CircuitBoard size={18} />
                 <span>Electrónica</span>
               </button>
-              
               {isAuthenticated && (
                 <button
                   onClick={() => {
@@ -514,7 +512,6 @@ const App = () => {
                 </button>
               )}
             </div>
-            
             <div className="mt-4 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <input
@@ -539,17 +536,14 @@ const App = () => {
           <Star className="h-4 w-4 text-yellow-500" />
           <span className="text-sm font-medium text-gray-700">Plataforma Profesional de Aprendizaje</span>
         </div>
-        
         <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
           Domina la
           <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"> Tecnología</span>
         </h1>
-        
         <p className="text-xl text-gray-600 max-w-4xl mx-auto mb-10 leading-relaxed">
           MB NebulaCode es tu plataforma integral para dominar programación y electrónica. 
           Recursos profesionales, tutoriales prácticos y una comunidad de expertos esperándote.
         </p>
-        
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <button
             onClick={() => setCurrentPage('resources')}
@@ -558,7 +552,6 @@ const App = () => {
             <BookOpen size={20} />
             Explorar Recursos
           </button>
-          
           {isAuthenticated && (
             <button
               onClick={() => setCurrentPage('create')}
@@ -570,7 +563,6 @@ const App = () => {
           )}
         </div>
       </div>
-
       {/* Stats Section */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
         <div className="bg-white rounded-2xl p-6 shadow-lg text-center">
@@ -580,7 +572,6 @@ const App = () => {
           <div className="text-3xl font-bold text-gray-900 mb-2">50+</div>
           <div className="text-gray-600">Recursos de Programación</div>
         </div>
-        
         <div className="bg-white rounded-2xl p-6 shadow-lg text-center">
           <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
             <CircuitBoard className="h-6 w-6 text-purple-600" />
@@ -588,7 +579,6 @@ const App = () => {
           <div className="text-3xl font-bold text-gray-900 mb-2">35+</div>
           <div className="text-gray-600">Proyectos Electrónicos</div>
         </div>
-        
         <div className="bg-white rounded-2xl p-6 shadow-lg text-center">
           <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-4">
             <User className="h-6 w-6 text-green-600" />
@@ -596,7 +586,6 @@ const App = () => {
           <div className="text-3xl font-bold text-gray-900 mb-2">1K+</div>
           <div className="text-gray-600">Profesionales Activos</div>
         </div>
-        
         <div className="bg-white rounded-2xl p-6 shadow-lg text-center">
           <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mx-auto mb-4">
             <Zap className="h-6 w-6 text-orange-600" />
@@ -605,7 +594,6 @@ const App = () => {
           <div className="text-gray-600">Soporte Técnico</div>
         </div>
       </div>
-
       {/* Featured Resources */}
       <div className="mb-16">
         <div className="flex justify-between items-center mb-8">
@@ -617,14 +605,12 @@ const App = () => {
             Ver todos <ChevronDown size={16} className="rotate-90" />
           </button>
         </div>
-        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredTutorials.slice(0, 3).map((tutorial) => (
             <ResourceCard key={tutorial.id} tutorial={tutorial} onViewDetail={setCurrentPage} />
           ))}
         </div>
       </div>
-
       {/* Categories */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 relative overflow-hidden">
@@ -648,7 +634,6 @@ const App = () => {
             <ExternalLink size={16} />
           </button>
         </div>
-        
         <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8 relative overflow-hidden">
           <div className="absolute top-4 right-4 opacity-10">
             <CircuitBoard className="h-32 w-32" />
@@ -695,7 +680,6 @@ const App = () => {
           <span className="text-xs font-medium text-gray-700">{tutorial.duration}</span>
         </div>
       </div>
-      
       <div className="p-6">
         <div className="flex items-center gap-2 mb-3">
           <span className={`px-2 py-1 rounded text-xs font-medium ${
@@ -707,12 +691,10 @@ const App = () => {
           </span>
           <span className="text-sm text-gray-500">{tutorial.date}</span>
         </div>
-        
         <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
           {tutorial.title}
         </h3>
         <p className="text-gray-600 mb-4 line-clamp-2">{tutorial.description}</p>
-        
         <div className="flex flex-wrap gap-1 mb-4">
           {tutorial.tags.slice(0, 3).map((tag, index) => (
             <span key={index} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">
@@ -720,7 +702,6 @@ const App = () => {
             </span>
           ))}
         </div>
-        
         <div className="flex items-center justify-between">
           <span className="text-sm text-gray-500">Por {tutorial.author}</span>
           <button
@@ -741,7 +722,6 @@ const App = () => {
       { id: 'programacion', name: 'Programación', icon: Code },
       { id: 'electronica', name: 'Electrónica', icon: CircuitBoard }
     ];
-
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
@@ -754,7 +734,6 @@ const App = () => {
             {filteredTutorials.length} recursos disponibles para tu aprendizaje profesional
           </p>
         </div>
-
         {/* Category Filter */}
         <div className="flex flex-wrap gap-4 mb-8">
           {categories.map((category) => {
@@ -775,7 +754,6 @@ const App = () => {
             );
           })}
         </div>
-
         {/* Search Bar */}
         <div className="mb-8 relative max-w-md">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
@@ -787,7 +765,6 @@ const App = () => {
             className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
           />
         </div>
-
         {/* Resources Grid */}
         {filteredTutorials.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -819,7 +796,6 @@ const App = () => {
 
   const TutorialDetailPage = ({ tutorialId }) => {
     const tutorial = tutorials.find(t => t.id === parseInt(tutorialId));
-    
     if (!tutorial) {
       return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -839,7 +815,6 @@ const App = () => {
         </div>
       );
     }
-
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <button
@@ -848,14 +823,12 @@ const App = () => {
         >
           ← Volver a recursos
         </button>
-        
         <article className="bg-white rounded-2xl shadow-xl overflow-hidden">
           <img
             src={tutorial.image}
             alt={tutorial.title}
             className="w-full h-96 object-cover"
           />
-          
           <div className="p-8">
             <div className="flex flex-wrap items-center gap-4 mb-6">
               <span className={`px-4 py-2 rounded-full text-sm font-semibold text-white ${
@@ -875,10 +848,8 @@ const App = () => {
               <span className="text-gray-500">{tutorial.date}</span>
               <span className="text-gray-500">{tutorial.duration}</span>
             </div>
-            
             <h1 className="text-4xl font-bold text-gray-900 mb-6">{tutorial.title}</h1>
             <p className="text-xl text-gray-600 mb-8">{tutorial.description}</p>
-            
             <div className="flex flex-wrap items-center justify-between mb-8 gap-4">
               <div className="flex items-center gap-3">
                 <img
@@ -891,7 +862,6 @@ const App = () => {
                   <div className="text-sm text-gray-500">Experto en {tutorial.category === 'programacion' ? 'Desarrollo' : 'Electrónica'}</div>
                 </div>
               </div>
-              
               {tutorial.videoUrl && (
                 <a
                   href={tutorial.videoUrl}
@@ -904,7 +874,6 @@ const App = () => {
                 </a>
               )}
             </div>
-            
             <div className="prose max-w-none mb-8">
               <div className="bg-gray-50 rounded-xl p-6">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Contenido del Recurso</h2>
@@ -913,7 +882,6 @@ const App = () => {
                 </p>
               </div>
             </div>
-            
             <div className="flex flex-wrap gap-2 mb-8">
               {tutorial.tags.map((tag, index) => (
                 <span key={index} className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full font-medium">
@@ -936,7 +904,6 @@ const App = () => {
           </div>
           <h1 className="text-3xl font-bold text-gray-900">Crear Nuevo Recurso</h1>
         </div>
-        
         <div className="space-y-6">
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">Título del Recurso</label>
@@ -948,7 +915,6 @@ const App = () => {
               placeholder="Ej: Desarrollo de APIs RESTful con Node.js"
             />
           </div>
-          
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">Descripción Breve</label>
             <textarea
@@ -959,7 +925,6 @@ const App = () => {
               placeholder="Describe brevemente qué cubrirá este recurso..."
             />
           </div>
-          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Categoría</label>
@@ -972,7 +937,6 @@ const App = () => {
                 <option value="electronica">Electrónica</option>
               </select>
             </div>
-            
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Nivel de Dificultad</label>
               <select
@@ -986,7 +950,6 @@ const App = () => {
               </select>
             </div>
           </div>
-          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Duración Estimada</label>
@@ -998,7 +961,6 @@ const App = () => {
                 placeholder="Ej: 45 min"
               />
             </div>
-            
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Etiquetas (separadas por comas)</label>
               <input
@@ -1010,7 +972,6 @@ const App = () => {
               />
             </div>
           </div>
-          
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">URL de la Imagen Principal</label>
             <div className="flex gap-3">
@@ -1027,7 +988,6 @@ const App = () => {
               </button>
             </div>
           </div>
-          
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">URL del Video Tutorial (opcional)</label>
             <input
@@ -1038,7 +998,6 @@ const App = () => {
               placeholder="https://youtube.com/watch?v=..."
             />
           </div>
-          
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">Contenido Detallado</label>
             <textarea
@@ -1049,7 +1008,6 @@ const App = () => {
               placeholder="Escribe el contenido completo y detallado del recurso aquí..."
             />
           </div>
-          
           <div className="flex flex-wrap gap-4 pt-6">
             <button
               onClick={handleCreateTutorial}
@@ -1074,9 +1032,7 @@ const App = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
       <Navbar />
-      
       {showAuthModal && <AuthModal />}
-      
       <main>
         {currentPage === 'home' && <HomePage />}
         {currentPage === 'resources' && <ResourcesPage />}
@@ -1107,7 +1063,6 @@ const App = () => {
           </div>
         )}
       </main>
-
       <footer className="bg-gray-900 text-white py-16 mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
@@ -1136,7 +1091,6 @@ const App = () => {
                 </a>
               </div>
             </div>
-            
             <div>
               <h3 className="text-lg font-semibold mb-6">Recursos</h3>
               <ul className="space-y-3 text-gray-400">
@@ -1146,7 +1100,6 @@ const App = () => {
                 <li><a href="#" className="hover:text-white transition-colors">Proyectos</a></li>
               </ul>
             </div>
-            
             <div>
               <h3 className="text-lg font-semibold mb-6">Soporte</h3>
               <ul className="space-y-3 text-gray-400">
@@ -1157,20 +1110,19 @@ const App = () => {
               </ul>
             </div>
           </div>
-          
           <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center gap-6 text-gray-400 mb-4 md:mb-0">
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4" />
-                <span>contacto@nebulacode.com</span>
+                <span>shaka21virgo@hotmail.com</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4" />
-                <span>+57 300 123 4567</span>
+                <span>+57 320 423 6962</span>
               </div>
             </div>
             <p className="text-gray-400 text-center md:text-right">
-              &copy; 2024 MB NebulaCode. Todos los derechos reservados.
+              &copy; 2025 Miguel Angel Buelvas MB NebulaCode. Todos los derechos reservados.
             </p>
           </div>
         </div>
